@@ -23,33 +23,33 @@ export default class ShortAnswer extends RunestoneBase {
   constructor(opts) {
     super();
     if (opts) {
-      var orig = opts.orig; // entire <p> element that will be replaced by new HTML
+      var orig = opts.orig;
       this.useRunestoneServices =
         opts.useRunestoneServices || eBookConfig.useRunestoneServices;
     }
-    //      this.origElem = orig;
-    //      this.divid = orig.id;
-    //      this.question = this.origElem.innerHTML;
     this.optional = false;
     if ($(this.origElem).is("[data-optional]")) {
       this.optional = true;
     }
     //this.renderHTML();
-    this.shadow = this.attachShadow({ mode: "open" });
-    this.shadow.appendChild(templateEl.content.cloneNode(true));
-
+    const shadow = this.attachShadow({ mode: "open" });
+    shadow.appendChild(templateEl.content.cloneNode(true));
+    this.saveButton = shadow.getElementById("sa_save");
+    this.textArea = shadow.getElementById("question1_solution");
+    this.feedbackDiv = shadow.getElementById("question1_feedback");
     this.caption = "shortanswer";
     //this.addCaption("runestone");
   }
 
   connectedCallback() {
-    // connect the save button
+    this.divid = this.getAttribute("id"); // this would be better in the constructor but we need to delay our registration until the end of the page
+
     this.checkServer("shortanswer");
-    this.divid = this.getAttribute("id");
+    this.saveButton.addEventListener("click", this.submitJournal.bind(this));
   }
 
   submitJournal() {
-    var value = $("#" + this.divid + "_solution").val();
+    var value = this.textArea.value;
     this.setLocalStorage({
       answer: value,
       timestamp: new Date()
@@ -90,7 +90,7 @@ export default class ShortAnswer extends RunestoneBase {
           localStorage.removeItem(this.localStorageKey());
           return;
         }
-        let solution = $("#" + this.divid + "_solution");
+        let solution = $(this.textArea);
         solution.text(answer);
         this.feedbackDiv.innerHTML =
           "Your current saved answer is shown above.";
