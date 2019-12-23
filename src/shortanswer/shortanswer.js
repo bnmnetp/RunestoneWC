@@ -126,4 +126,6 @@ component_factory.shortanswer = function(opts) {
   return new ShortAnswer(opts);
 };
 
-window.customElements.define("runestone-shortanswer", ShortAnswer);
+if (!window.customElements.get("runestone-shortanswer")) {
+  window.customElements.define("runestone-shortanswer", ShortAnswer);
+}
