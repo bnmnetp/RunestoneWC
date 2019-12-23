@@ -40,7 +40,17 @@ When the page is loaded and all 100 of the js files have been loaded some javasc
 The same directive could just as easily generate tags that look like this, where the javascript would register `shortanswer` as a custom tag and tell the browser how it should be rendered. The code won't have to change a ton, but this seems a lot cleaner and more reusable across more systems.
 
 ```
-<shortanswer id=question1 class="runestone" optional>
-   <question>What are the colors in the rainbow?</question>
-</shortanswer>
+<runestone-shortanswer id=question1 class="runestone" optional>
+   <p slot="sa-questiontext">What are the colors in the rainbow?</p>
+</runestone-shortanswer>
 ```
+
+# Get Started
+
+1. Clone this repo
+2. Make sure npm is installed on your system.
+3. run `npm install`
+4. run `npm run build` -- this should populate the dist folder
+5. run `npm run serve` -- will start a basic server on 8080
+
+After the build, the dist folder should have index.html, mystyle.css and runestone.js
