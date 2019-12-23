@@ -17,8 +17,9 @@
 
 import { pageProgressTracker } from "./bookfuncs.js";
 
-export default class RunestoneBase {
+export default class RunestoneBase extends HTMLElement {
   constructor(opts) {
+    super();
     if (opts) {
       this.sid = opts.sid;
       this.graderactive = opts.graderactive;

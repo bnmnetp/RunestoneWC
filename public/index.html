@@ -48,21 +48,26 @@
       <div class="section" id="short-answer">
         <h2>Short Answer<a class="headerlink" href="#short-answer" title="Permalink to this headline">¶</a></h2>
 
-        <div class="runestone">
-          <div data-component="shortanswer" class="journal alert alert-success" id=question1 data-optional>
-            <p>Q-1: What are the colors in the rainbow?</p>
+        <runestone-shortanswer id="question1">
+          <p slot="sa-questiontext">What are the colors in the rainbow?</p>
 
-          </div>
-        </div> <!-- end of runestone div -->
+        </runestone-shortanswer>
+
+
+        <runestone-shortanswer id="question2">
+
+          <p slot="sa-questiontext">What is your favorite color?</p>
+
+        </runestone-shortanswer>
 
       </div>
     </div>
+  </div>
 
-
-    <div id=scprogresscontainer>
-      You have attempted <span id=scprogresstotal></span> of <span id=scprogressposs></span> activities on this page
-      <div id="subchapterprogress"></div>
-    </div>
+  <div id=scprogresscontainer>
+    You have attempted <span id=scprogresstotal></span> of <span id=scprogressposs></span> activities on this page
+    <div id="subchapterprogress"></div>
+  </div>
 
 </body>
 
