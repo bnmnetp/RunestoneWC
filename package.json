@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --env.MODE=development",
+    "start": "webpack-dev-server --env.MODE=development --public=dev.runestoneinteractive.org --port=8080 --allowed-hosts=64.33.205.248",
     "serve": "cd dist; python -m http.server 8080; cd .."
   },
   "keywords": [],
