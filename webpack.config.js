@@ -5,10 +5,12 @@ const path = require("path");
 
 module.exports = env => {
   return {
-    entry: "./src/shortanswer/shortanswer.js",
+    entry: [
+      "./src/shortanswer/shortanswer.js",
+      "./src/activecode/acfactory.js"
+    ],
     mode: env.MODE,
     devtool: env.MODE === "development" ? "inline-source-map" : "none",
-
     module: {
       rules: [
         {

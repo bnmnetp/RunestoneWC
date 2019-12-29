@@ -7,8 +7,15 @@
   <title>Testing: Short Answer Questions &#8212; Runestone Interactive Overview</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://code.jquery.com/ui/1.10.3/jquery-ui.min.js"
-    integrity="sha256-lnH4vnCtlKU2LmD0ZW1dU7ohTTKrcKP50WA9fa350cE=" crossorigin="anonymous"></script>
-  <script type="text/javascript" src="runestone.js"></script>
+      integrity="sha256-lnH4vnCtlKU2LmD0ZW1dU7ohTTKrcKP50WA9fa350cE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.5/jquery.i18n.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.5/jquery.i18n.emitter.bidi.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.5/jquery.i18n.emitter.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.5/jquery.i18n.fallbacks.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.5/jquery.i18n.messagestore.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.5/jquery.i18n.parser.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.5/jquery.i18n.language.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.min.css">
 
   <script type="text/javascript">
     eBookConfig = {};
@@ -68,6 +75,22 @@
     You have attempted <span id=scprogresstotal></span> of <span id=scprogressposs></span> activities on this page
     <div id="subchapterprogress"></div>
   </div>
+
+
+  <div data-childcomponent="over_ac_example1" class="runestone explainer ac_section alert alert-warning">
+
+    <textarea data-component="activecode" id=over_ac_example1 data-lang="python"
+          data-timelimit=25000 data-coach="true" data-codelens="true"
+        data-audio=''
+              >
+    print("My first program adds a list of numbers")
+    myList = [2, 4, 6, 8, 10]
+    total = 0
+    for num in myList:
+        total = total + num
+    print(total)
+    </textarea>
+    </div>
 
 </body>
 
