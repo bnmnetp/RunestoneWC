@@ -1,4 +1,7 @@
-import { ActiveCode, edList } from "./activecode.js";
+import {
+  ActiveCode,
+  edList
+} from "./activecode.js";
 import JSActiveCode from "./activecode_js.js";
 import HTMLActiveCode from "./activecode_html.js";
 import SQLActiveCode from "./activecode_sql.js";
@@ -42,8 +45,14 @@ export default class ACFactory {
     thepre.id = outerdivid;
     $(thepre).data("lang", language);
     $(acdiv).append(thepre);
-    var opts = { orig: thepre, useRunestoneServices: true };
-    var addopts = { sid: sid, graderactive: true };
+    var opts = {
+      orig: thepre,
+      useRunestoneServices: true
+    };
+    var addopts = {
+      sid: sid,
+      graderactive: true
+    };
     if (language === "htmlmixed") {
       addopts["vertical"] = true;
     }
@@ -51,7 +60,7 @@ export default class ACFactory {
     var savediv = newac.divid;
     newac.divid = savediv;
     newac.editor.setSize(500, 300);
-    setTimeout(function() {
+    setTimeout(function () {
       newac.editor.refresh();
     }, 500);
   }
@@ -63,12 +72,15 @@ export default class ACFactory {
     // use the URL to assign a divid - each page should have a unique Activecode block id.
     // Remove everything from the URL but the course and page name
     // todo:  this could probably be eliminated and simply moved to the template file
+
+    if (eBookConfig.enableScratchAC == false) return;
+
     var divid = eBookConfig.course + "_scratch_ac";
     divid = divid.replace(/[#.]/g, ""); // in case book title has characters that will mess up our selectors
     eBookConfig.scratchDiv = divid;
-    var lang = eBookConfig.acDefaultLanguage
-      ? eBookConfig.acDefaultLanguage
-      : "python";
+    var lang = eBookConfig.acDefaultLanguage ?
+      eBookConfig.acDefaultLanguage :
+      "python";
     // generate the HTML
     var html =
       '<div id="ac_modal_' +
@@ -96,8 +108,8 @@ export default class ACFactory {
       "</div>";
     var el = $(html);
     $("body").append(el);
-    el.on("shown.bs.modal show.bs.modal", function() {
-      el.find(".CodeMirror").each(function(i, e) {
+    el.on("shown.bs.modal show.bs.modal", function () {
+      el.find(".CodeMirror").each(function (i, e) {
         e.CodeMirror.refresh();
         e.CodeMirror.focus();
       });
@@ -119,9 +131,9 @@ export default class ACFactory {
 // Page Initialization
 //
 
-$(document).ready(function() {
+$(document).ready(function () {
   ACFactory.createScratchActivecode();
-  $("[data-component=activecode]").each(function(index) {
+  $("[data-component=activecode]").each(function (index) {
     if ($(this).closest("[data-component=timedAssessment]").length == 0) {
       // If this element exists within a timed component, don't render it here
       edList[this.id] = ACFactory.createActiveCode(this, $(this).data("lang"));
@@ -147,10 +159,10 @@ component_factory["activecode"] = ACFactory.createActiveCodeFromOpts;
 // figure out the login/logout status of the user.  Sometimes its immediate, and sometimes its
 // long.  So to be safe we'll do it both ways..
 var loggedout;
-$(document).bind("runestone:logout", function() {
+$(document).bind("runestone:logout", function () {
   loggedout = true;
 });
-$(document).bind("runestone:logout", function() {
+$(document).bind("runestone:logout", function () {
   for (let k in edList) {
     if (edList.hasOwnProperty(k)) {
       edList[k].disableSaveLoad();
