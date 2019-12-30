@@ -15,11 +15,12 @@
  *
  **/
 
-import { pageProgressTracker } from "./bookfuncs.js";
+import {
+  pageProgressTracker
+} from "./bookfuncs.js";
 
-export default class RunestoneBase extends HTMLElement {
+export default class RunestoneBase {
   constructor(opts) {
-    super();
     if (opts) {
       this.sid = opts.sid;
       this.graderactive = opts.graderactive;
@@ -40,7 +41,7 @@ export default class RunestoneBase extends HTMLElement {
       var post_return = jQuery.post(
         eBookConfig.ajaxURL + "hsblog",
         eventInfo,
-        function(jsondata) {
+        function (jsondata) {
           if (jsondata.log == false) {
             alert(jsondata.message);
             location.href =
@@ -75,7 +76,7 @@ export default class RunestoneBase extends HTMLElement {
       jQuery
         .post(eBookConfig.ajaxURL + "runlog.json", eventInfo) // Log the run event
         .done(
-          function(data, status, whatever) {
+          function (data, status, whatever) {
             // data = JSON.parse(data);
             if (data.message) {
               alert(data.message);
@@ -90,7 +91,7 @@ export default class RunestoneBase extends HTMLElement {
           }.bind(this)
         )
         .fail(
-          function() {
+          function () {
             alert("WARNING:  Your code was not saved!  Please Try again.");
             this.forceSave = true;
           }.bind(this)
