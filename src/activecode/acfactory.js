@@ -1,11 +1,9 @@
-import {
-    ActiveCode,
-    edList
-} from "./activecode.js";
+import { ActiveCode, edList } from "./activecode.js";
 import JSActiveCode from "./activecode_js.js";
 import HTMLActiveCode from "./activecode_html.js";
 import SQLActiveCode from "./activecode_sql.js";
 import LiveCode from "./livecode.js";
+import "./../styles/activecode.css";
 
 export default class ACFactory {
     constructor() {
@@ -28,7 +26,9 @@ export default class ACFactory {
             return new HTMLActiveCode(opts);
         } else if (lang === "sql") {
             return new SQLActiveCode(opts);
-        } else if (["java", "cpp", "c", "python3", "python2"].indexOf(lang) > -1) {
+        } else if (
+            ["java", "cpp", "c", "python3", "python2"].indexOf(lang) > -1
+        ) {
             return new LiveCode(opts);
         } else {
             // default is python
@@ -60,7 +60,7 @@ export default class ACFactory {
         var savediv = newac.divid;
         newac.divid = savediv;
         newac.editor.setSize(500, 300);
-        setTimeout(function () {
+        setTimeout(function() {
             newac.editor.refresh();
         }, 500);
     }
@@ -78,9 +78,9 @@ export default class ACFactory {
         var divid = eBookConfig.course + "_scratch_ac";
         divid = divid.replace(/[#.]/g, ""); // in case book title has characters that will mess up our selectors
         eBookConfig.scratchDiv = divid;
-        var lang = eBookConfig.acDefaultLanguage ?
-            eBookConfig.acDefaultLanguage :
-            "python";
+        var lang = eBookConfig.acDefaultLanguage
+            ? eBookConfig.acDefaultLanguage
+            : "python";
         // generate the HTML
         var html =
             '<div id="ac_modal_' +
@@ -108,8 +108,8 @@ export default class ACFactory {
             "</div>";
         var el = $(html);
         $("body").append(el);
-        el.on("shown.bs.modal show.bs.modal", function () {
-            el.find(".CodeMirror").each(function (i, e) {
+        el.on("shown.bs.modal show.bs.modal", function() {
+            el.find(".CodeMirror").each(function(i, e) {
                 e.CodeMirror.refresh();
                 e.CodeMirror.focus();
             });
@@ -131,12 +131,15 @@ export default class ACFactory {
 // Page Initialization
 //
 
-$(document).ready(function () {
+$(document).ready(function() {
     ACFactory.createScratchActivecode();
-    $("[data-component=activecode]").each(function (index) {
+    $("[data-component=activecode]").each(function(index) {
         if ($(this).closest("[data-component=timedAssessment]").length == 0) {
             // If this element exists within a timed component, don't render it here
-            edList[this.id] = ACFactory.createActiveCode(this, $(this).data("lang"));
+            edList[this.id] = ACFactory.createActiveCode(
+                this,
+                $(this).data("lang")
+            );
         }
     });
     if (loggedout) {
@@ -159,10 +162,10 @@ component_factory["activecode"] = ACFactory.createActiveCodeFromOpts;
 // figure out the login/logout status of the user.  Sometimes its immediate, and sometimes its
 // long.  So to be safe we'll do it both ways..
 var loggedout;
-$(document).bind("runestone:logout", function () {
+$(document).bind("runestone:logout", function() {
     loggedout = true;
 });
-$(document).bind("runestone:logout", function () {
+$(document).bind("runestone:logout", function() {
     for (let k in edList) {
         if (edList.hasOwnProperty(k)) {
             edList[k].disableSaveLoad();
