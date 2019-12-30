@@ -6,13 +6,16 @@
 import RunestoneBase from "../common/runestonebase.js";
 import CodeMirror from "codemirror";
 import "codemirror/mode/python/python.js";
+import "./activecode-i18n.en.js";
+
 //import "codemirror/lib/codemirror.css";
 
 var isMouseDown = false;
-document.onmousedown = function() {
+document.onmousedown = function () {
   isMouseDown = true;
 };
-document.onmouseup = function() {
+
+document.onmouseup = function () {
   isMouseDown = false;
 };
 export var edList = {};
@@ -132,11 +135,14 @@ export class ActiveCode extends RunestoneBase {
       indentUnit: 4,
       matchBrackets: true,
       autoMatchParens: true,
-      extraKeys: { Tab: "indentMore", "Shift-Tab": "indentLess" }
+      extraKeys: {
+        Tab: "indentMore",
+        "Shift-Tab": "indentLess"
+      }
     });
     // Make the editor resizable
     $(editor.getWrapperElement()).resizable({
-      resize: function() {
+      resize: function () {
         editor.setSize($(this).width(), $(this).height());
         editor.refresh();
       }
@@ -144,7 +150,7 @@ export class ActiveCode extends RunestoneBase {
     // give the user a visual cue that they have changed but not saved
     editor.on(
       "change",
-      function(ev) {
+      function (ev) {
         if (editor.acEditEvent == false || editor.acEditEvent === undefined) {
           // change events can come before any real changes for various reasons, some unknown
           // this avoids unneccsary log events and updates to the activity counter
@@ -166,16 +172,16 @@ export class ActiveCode extends RunestoneBase {
       }.bind(this)
     ); // use bind to preserve *this* inside the on handler.
     //Solving Keyboard Trap of ActiveCode: If user use tab for navigation outside of ActiveCode, then change tab behavior in ActiveCode to enable tab user to tab out of the textarea
-    $(window).keydown(function(e) {
+    $(window).keydown(function (e) {
       var code = e.keyCode ? e.keyCode : e.which;
       if (code == 9 && $("textarea:focus").length === 0) {
         editor.setOption("extraKeys", {
-          Tab: function(cm) {
+          Tab: function (cm) {
             $(document.activeElement)
               .closest(".tab-content")
               .nextSibling.focus();
           },
-          "Shift-Tab": function(cm) {
+          "Shift-Tab": function (cm) {
             $(document.activeElement)
               .closest(".tab-content")
               .previousSibling.focus();
@@ -242,7 +248,7 @@ export class ActiveCode extends RunestoneBase {
       this.showHideButt = butt;
       ctrlDiv.appendChild(butt);
       $(butt).click(
-        function() {
+        function () {
           $(this.codeDiv).toggle();
           if (this.historyScrubber == null) {
             this.addHistoryScrubber(true);
@@ -303,7 +309,7 @@ export class ActiveCode extends RunestoneBase {
       this.atButton = butt;
       ctrlDiv.appendChild(butt);
       $(butt).click(
-        function() {
+        function () {
           new AudioTour(
             this.divid,
             this.code,
@@ -321,7 +327,7 @@ export class ActiveCode extends RunestoneBase {
       this.shareButt = butt;
       ctrlDiv.appendChild(butt);
       $(butt).click(
-        function() {
+        function () {
           if (
             !confirm(
               "You are about to share this code with ALL of your students.  Are you sure you want to continue?"
@@ -337,7 +343,7 @@ export class ActiveCode extends RunestoneBase {
           $.post(
             "/runestone/ajax/broadcast_code.json",
             data,
-            function(status) {
+            function (status) {
               if (status.mess === "success") {
                 alert(`Shared Code with ${status.share_count} students`);
               } else {
@@ -359,7 +365,7 @@ export class ActiveCode extends RunestoneBase {
       $(plabel).text("Pair?");
       ctrlDiv.appendChild(plabel);
       $(checkPartner).click(
-        function() {
+        function () {
           if (this.partner) {
             this.partner = false;
             $(partnerTextBox).hide();
@@ -371,8 +377,8 @@ export class ActiveCode extends RunestoneBase {
             if (!didAgree) {
               didAgree = confirm(
                 "Pair Programming should only be used with the consent of your instructor." +
-                  "Your partner must be a registered member of the class and have agreed to pair with you." +
-                  "By clicking OK you certify that both of these conditions have been met."
+                "Your partner must be a registered member of the class and have agreed to pair with you." +
+                "By clicking OK you certify that both of these conditions have been met."
               );
               if (didAgree) {
                 localStorage.setItem("partnerAgree", "true");
@@ -391,7 +397,7 @@ export class ActiveCode extends RunestoneBase {
       ctrlDiv.appendChild(partnerTextBox);
       $(partnerTextBox).hide();
       $(partnerTextBox).change(
-        function() {
+        function () {
           this.partner = partnerTextBox.value;
         }.bind(this)
       );
@@ -412,21 +418,21 @@ export class ActiveCode extends RunestoneBase {
       $(butt).attr(
         "href",
         "http://" +
-          chatcodesServer +
-          "/new?" +
-          $.param({
-            topic: window.location.host + "-" + this.divid,
-            code: this.editor.getValue(),
-            lang: "Python"
-          })
+        chatcodesServer +
+        "/new?" +
+        $.param({
+          topic: window.location.host + "-" + this.divid,
+          code: this.editor.getValue(),
+          lang: "Python"
+        })
       );
       this.chatButton = butt;
       chatBar.appendChild(butt);
-      var updateChatCodesChannels = function() {
+      var updateChatCodesChannels = function () {
         var data = doc.data;
         var i = 1;
         $(channels).html("");
-        data["channels"].forEach(function(channel) {
+        data["channels"].forEach(function (channel) {
           if (!channel.archived && topic === channel.topic) {
             var link = $("<a />");
             var href = "http://" + chatcodesServer + "/" + channel.channelName;
@@ -457,13 +463,15 @@ export class ActiveCode extends RunestoneBase {
   // add an initial load history button
   // if there is no edit then there is no append   to_save (True/False)
   addHistoryScrubber(pos_last) {
-    var data = { acid: this.divid };
+    var data = {
+      acid: this.divid
+    };
     var deferred = jQuery.Deferred();
     if (this.sid !== undefined) {
       data["sid"] = this.sid;
     }
     console.log("before get hist");
-    var helper = function() {
+    var helper = function () {
       console.log("making a new scrubber");
       var scrubberDiv = document.createElement("div");
       $(scrubberDiv).css("display", "inline-block");
@@ -475,7 +483,7 @@ export class ActiveCode extends RunestoneBase {
       });
       var scrubber = document.createElement("div");
       this.timestampP = document.createElement("span");
-      this.slideit = function() {
+      this.slideit = function () {
         this.editor.setValue(this.history[$(scrubber).slider("value")]);
         var curVal = this.timestamps[$(scrubber).slider("value")];
         let pos = $(scrubber).slider("value");
@@ -535,7 +543,7 @@ export class ActiveCode extends RunestoneBase {
         .getJSON(
           eBookConfig.ajaxURL + "gethist.json",
           data,
-          function(data, status, whatever) {
+          function (data, status, whatever) {
             if (data.history !== undefined) {
               this.history = this.history.concat(data.history);
               for (t in data.timestamps) {
@@ -569,7 +577,7 @@ export class ActiveCode extends RunestoneBase {
     $(this.graphics).on(
       "DOMNodeInserted",
       "canvas",
-      function(e) {
+      function (e) {
         $(this.graphics).addClass("visible-ac-canvas");
       }.bind(this)
     );
@@ -606,16 +614,18 @@ export class ActiveCode extends RunestoneBase {
       fnb +
       "_" +
       d
-        .toJSON()
-        .substring(0, 10) // reverse date format
-        .split("-")
-        .join("") +
+      .toJSON()
+      .substring(0, 10) // reverse date format
+      .split("-")
+      .join("") +
       "." +
       languageExtensions[lang];
     var code = this.editor.getValue();
     if ("Blob" in window) {
       var textToWrite = code.replace(/\n/g, "\r\n");
-      var textFileAsBlob = new Blob([textToWrite], { type: "text/plain" });
+      var textFileAsBlob = new Blob([textToWrite], {
+        type: "text/plain"
+      });
       if ("msSaveOrOpenBlob" in navigator) {
         navigator.msSaveOrOpenBlob(textFileAsBlob, fileName);
       } else {
@@ -632,13 +642,13 @@ export class ActiveCode extends RunestoneBase {
     }
   }
   loadEditor() {
-    var loadEditor = function(data, status, whatever) {
+    var loadEditor = function (data, status, whatever) {
       // function called when contents of database are returned successfully
       var res = eval(data)[0];
       if (res.source) {
         this.editor.setValue(res.source);
         setTimeout(
-          function() {
+          function () {
             this.editor.refresh();
           }.bind(this),
           500
@@ -657,23 +667,29 @@ export class ActiveCode extends RunestoneBase {
       }
       $(this.loadButton).tooltip("show");
       setTimeout(
-        function() {
+        function () {
           $(this.loadButton).tooltip("destroy");
         }.bind(this),
         4000
       );
     }.bind(this);
-    var data = { acid: this.divid };
+    var data = {
+      acid: this.divid
+    };
     if (this.sid !== undefined) {
       data["sid"] = this.sid;
     }
     // This function needs to be chainable for when we want to do things like run the activecode
     // immediately after loading the previous input (such as in a timed exam)
     var dfd = jQuery.Deferred();
-    this.logBookEvent({ event: "activecode", act: "load", div_id: this.divid }); // Log the run event
+    this.logBookEvent({
+      event: "activecode",
+      act: "load",
+      div_id: this.divid
+    }); // Log the run event
     jQuery
       .get(eBookConfig.ajaxURL + "getprog", data, loadEditor)
-      .done(function() {
+      .done(function () {
         dfd.resolve();
       });
     return dfd;
@@ -682,7 +698,7 @@ export class ActiveCode extends RunestoneBase {
     // get grade and comments for this assignment
     // get summary of all grades for this student
     // display grades in modal window
-    var showGradeSummary = function(data, status, whatever) {
+    var showGradeSummary = function (data, status, whatever) {
       var report = eval(data)[0];
       // check for report['message']
       if (report) {
@@ -734,7 +750,9 @@ export class ActiveCode extends RunestoneBase {
       var el = $(html);
       el.modal();
     };
-    var data = { div_id: this.divid };
+    var data = {
+      div_id: this.divid
+    };
     jQuery.get(
       eBookConfig.ajaxURL + "getassignmentgrade",
       data,
@@ -782,7 +800,7 @@ export class ActiveCode extends RunestoneBase {
     myVars.codeDivWidth = 350;
     myVars.codeDivHeight = 400;
     var srcURL = "https://pythontutor.com/iframe-embed.html";
-    var embedUrlStr = $.param.fragment(srcURL, myVars, 2 /* clobber all */);
+    var embedUrlStr = $.param.fragment(srcURL, myVars, 2 /* clobber all */ );
     var myIframe = document.createElement("iframe");
     myIframe.setAttribute("id", this.divid + "_codelens");
     myIframe.setAttribute("width", "800");
@@ -838,22 +856,22 @@ export class ActiveCode extends RunestoneBase {
     var ifm = document.createElement("iframe");
     $(ifm).addClass("tie-frame");
     ifm.src = `https://tech-interview-exercises.appspot.com/client/question.html?qid=${this.tie}`;
-    setIframeDimensions = function() {
+    setIframeDimensions = function () {
       $(".tie-container").css(
         "width",
         $(".tie-container")
-          .parent()
-          .width()
+        .parent()
+        .width()
       );
       //    $('.tie-frame').css('width', $('.tie-frame').parent().width() - 120);
     };
     ifm.onload = setIframeDimensions;
-    $(function() {
+    $(function () {
       $(window).resize(setIframeDimensions);
     });
     window.addEventListener(
       "message",
-      function(evt) {
+      function (evt) {
         if (evt.origin != "https://tech-interview-exercises.appspot.com") {
           return;
         }
@@ -871,7 +889,11 @@ export class ActiveCode extends RunestoneBase {
       }.bind(this),
       false
     );
-    this.logBookEvent({ event: "tie", act: "open", div_id: this.divid });
+    this.logBookEvent({
+      event: "tie",
+      act: "open",
+      div_id: this.divid
+    });
     tieDiv.appendChild(ifm);
     this.outerDiv.appendChild(tieDiv);
   }
@@ -919,16 +941,15 @@ export class ActiveCode extends RunestoneBase {
   }
   addJSONLibrary() {
     var jsonExternalLibInfo = {
-      path:
-        eBookConfig.app +
+      path: eBookConfig.app +
         "/static/" +
         eBookConfig.course +
         "/_static/json.sk-master/__init__.js",
       dependencies: [
         eBookConfig.app +
-          "/static/" +
-          eBookConfig.course +
-          "/_static/json.sk-master/stringify.js"
+        "/static/" +
+        eBookConfig.course +
+        "/_static/json.sk-master/stringify.js"
       ]
     };
     if (Sk.externalLibraries) {
@@ -984,10 +1005,10 @@ export class ActiveCode extends RunestoneBase {
         $.ajax({
           async: false,
           url: `/runestone/ajax/get_datafile?course_id=${eBookConfig.course}&acid=${divid}`,
-          success: function(data) {
+          success: function (data) {
             result = JSON.parse(data).data;
           },
-          error: function(err) {
+          error: function (err) {
             result = null;
           }
         });
@@ -1011,7 +1032,7 @@ export class ActiveCode extends RunestoneBase {
   }
   outputfun(text) {
     // bnm python 3
-    var pyStr = function(x) {
+    var pyStr = function (x) {
       if (x instanceof Array) {
         return "[" + x.join(", ") + "]";
       } else {
@@ -1075,10 +1096,10 @@ export class ActiveCode extends RunestoneBase {
       wresult = $.ajax({
         async: false,
         url: `/runestone/ajax/get_datafile?course_id=${eBookConfig.course}&acid=${divid}`,
-        success: function(data) {
+        success: function (data) {
           result = JSON.parse(data).data;
         },
-        error: function(err) {
+        error: function (err) {
           result = null;
         }
       });
@@ -1120,11 +1141,11 @@ export class ActiveCode extends RunestoneBase {
     history_dfd = jQuery.Deferred();
     scrubber_dfd
       .done(
-        function() {
+        function () {
           if (
             this.historyScrubber &&
             this.history[$(this.historyScrubber).slider("value")] !=
-              this.editor.getValue()
+            this.editor.getValue()
           ) {
             saveCode = "True";
             this.history.push(this.editor.getValue());
@@ -1149,11 +1170,14 @@ export class ActiveCode extends RunestoneBase {
           history_dfd.resolve();
         }.bind(this)
       )
-      .fail(function() {
+      .fail(function () {
         console.log("Scrubber deferred failed - this should not happen");
         history_dfd.resolve();
       });
-    return { history_dfd: history_dfd, saveCode: saveCode };
+    return {
+      history_dfd: history_dfd,
+      saveCode: saveCode
+    };
   }
   runProg() {
     var prog = this.buildProg(true);
@@ -1190,18 +1214,21 @@ export class ActiveCode extends RunestoneBase {
     $(this.runButton).attr("disabled", "disabled");
     $(this.historyScrubber).off("slidechange");
     $(this.historyScrubber).slider("disable");
-    $(this.outDiv).show({ duration: 700, queue: false });
+    $(this.outDiv).show({
+      duration: 700,
+      queue: false
+    });
     var __ret = this.manage_scrubber(scrubber_dfd, history_dfd, saveCode);
     history_dfd = __ret.history_dfd;
     saveCode = __ret.saveCode;
-    skulpt_run_dfd = Sk.misceval.asyncToPromise(function() {
+    skulpt_run_dfd = Sk.misceval.asyncToPromise(function () {
       return Sk.importMainWithBody("<stdin>", false, prog, true);
     });
     // Make sure that the history scrubber is fully initialized AND the code has been run
     // before we start logging stuff.
     var self = this;
     Promise.all([skulpt_run_dfd, history_dfd]).then(
-      function(mod) {
+      function (mod) {
         $(this.runButton).removeAttr("disabled");
         if (this.slideit) {
           $(this.historyScrubber).on("slidechange", this.slideit.bind(this));
@@ -1218,8 +1245,8 @@ export class ActiveCode extends RunestoneBase {
           partner: this.partner
         }); // Log the run event
       }.bind(this),
-      function(err) {
-        history_dfd.done(function() {
+      function (err) {
+        history_dfd.done(function () {
           $(self.runButton).removeAttr("disabled");
           $(self.historyScrubber).on("slidechange", self.slideit.bind(self));
           $(self.historyScrubber).slider("enable");
@@ -1238,7 +1265,7 @@ export class ActiveCode extends RunestoneBase {
       }
     );
     if (typeof allVisualizers != "undefined") {
-      $.each(allVisualizers, function(i, e) {
+      $.each(allVisualizers, function (i, e) {
         e.redrawConnectors();
       });
     }
@@ -1303,8 +1330,6 @@ errorText.KeyErrorFix = $.i18n("msg_activecode_key_error_fix");
 errorText.AssertionError = $.i18n("msg_activecode_assertion_error");
 errorText.AssertionErrorFix = $.i18n("msg_activecode_assertion_error_fix");
 
-String.prototype.replaceAll = function(target, replacement) {
+String.prototype.replaceAll = function (target, replacement) {
   return this.split(target).join(replacement);
 };
-
-window.customElements.define("runestone-activecode", ActiveCode);
