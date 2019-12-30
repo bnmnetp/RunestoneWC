@@ -1,4 +1,7 @@
 {
     "jshint.lintHTML": true,
-    "prettier.tabWidth": 4
+    "prettier.tabWidth": 4,
+    "editor.formatOnSave": true,
+    "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+    "editor.detectIndentation": false
 }
