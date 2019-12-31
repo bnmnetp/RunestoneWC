@@ -16,11 +16,26 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.5/jquery.i18n.messagestore.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.5/jquery.i18n.parser.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.i18n/1.0.5/jquery.i18n.language.js"></script>
+        <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"
+        ></script>
+
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.min.css"
         />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"
+        />
+        <link
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
 
         <script type="text/javascript">
             eBookConfig = {};
@@ -85,12 +100,6 @@
             </div>
         </div>
 
-        <div id="scprogresscontainer">
-            You have attempted <span id="scprogresstotal"></span> of
-            <span id="scprogressposs"></span> activities on this page
-            <div id="subchapterprogress"></div>
-        </div>
-
         <div
             data-childcomponent="over_ac_example1"
             class="runestone explainer ac_section alert alert-warning"
@@ -112,6 +121,50 @@ for num in myList:
 print(total)
     </textarea
             >
+        </div>
+
+        <div class="runestone alert alert-warning">
+            <ul
+                data-component="multiplechoice"
+                data-multipleanswers="false"
+                id="question2_new"
+            >
+                <p>Q-10: What color is a stop sign?</p>
+                <li
+                    data-component="answer"
+                    data-correct
+                    id="question2_new_opt_a"
+                >
+                    <p>red</p>
+                </li>
+                <li data-component="feedback" id="question2_new_opt_a">
+                    <p>Red it is.</p>
+                </li>
+                <li data-component="answer" id="question2_new_opt_b">
+                    <p>brown</p>
+                </li>
+                <li data-component="feedback" id="question2_new_opt_b">
+                    <p>Not brown.</p>
+                </li>
+                <li data-component="answer" id="question2_new_opt_c">
+                    <p>blue</p>
+                </li>
+                <li data-component="feedback" id="question2_new_opt_c">
+                    <p>Not blue.</p>
+                </li>
+                <li data-component="answer" id="question2_new_opt_d">
+                    <p>gray</p>
+                </li>
+                <li data-component="feedback" id="question2_new_opt_d">
+                    <p>Not gray.</p>
+                </li>
+            </ul>
+        </div>
+
+        <div id="scprogresscontainer">
+            You have attempted <span id="scprogresstotal"></span> of
+            <span id="scprogressposs"></span> activities on this page
+            <div id="subchapterprogress"></div>
         </div>
     </body>
 </html>

@@ -15,9 +15,8 @@
  *
  **/
 
-import {
-    pageProgressTracker
-} from "./bookfuncs.js";
+import { pageProgressTracker } from "./bookfuncs.js";
+import "./../styles/runestone-custom-sphinx-bootstrap.css";
 
 export default class RunestoneBase {
     constructor(opts) {
@@ -41,7 +40,7 @@ export default class RunestoneBase {
             var post_return = jQuery.post(
                 eBookConfig.ajaxURL + "hsblog",
                 eventInfo,
-                function (jsondata) {
+                function(jsondata) {
                     if (jsondata.log == false) {
                         alert(jsondata.message);
                         location.href =
@@ -76,7 +75,7 @@ export default class RunestoneBase {
             jQuery
                 .post(eBookConfig.ajaxURL + "runlog.json", eventInfo) // Log the run event
                 .done(
-                    function (data, status, whatever) {
+                    function(data, status, whatever) {
                         // data = JSON.parse(data);
                         if (data.message) {
                             alert(data.message);
@@ -91,8 +90,10 @@ export default class RunestoneBase {
                     }.bind(this)
                 )
                 .fail(
-                    function () {
-                        alert("WARNING:  Your code was not saved!  Please Try again.");
+                    function() {
+                        alert(
+                            "WARNING:  Your code was not saved!  Please Try again."
+                        );
                         this.forceSave = true;
                     }.bind(this)
                 );
@@ -173,7 +174,12 @@ export default class RunestoneBase {
     // Return the key which to be used when accessing local storage.
     localStorageKey() {
         return (
-            eBookConfig.email + ":" + eBookConfig.course + ":" + this.divid + "-given"
+            eBookConfig.email +
+            ":" +
+            eBookConfig.course +
+            ":" +
+            this.divid +
+            "-given"
         );
     }
     addCaption(elType) {
