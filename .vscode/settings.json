@@ -1,3 +1,4 @@
 {
-    "jshint.lintHTML": true
+    "jshint.lintHTML": true,
+    "prettier.tabWidth": 4
 }
