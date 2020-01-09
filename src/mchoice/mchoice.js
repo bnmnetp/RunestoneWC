@@ -19,7 +19,7 @@ var mcList = {}; // Multiple Choice dictionary
 // MC constructor
 class MultipleChoice extends RunestoneBase {
     constructor(opts) {
-        super();
+        super(opts);
         opts = opts || {};
         var orig = opts.orig; // entire <ul> element
         this.origElem = orig;
