@@ -28,7 +28,7 @@ var chatcodesServer = "chat.codes";
 // separate into constructor and init
 export class ActiveCode extends RunestoneBase {
     constructor(opts) {
-        super();
+        super(opts);
         //RunestoneBase.prototype.init.apply(this, arguments);
         var suffStart;
         var orig = opts.orig;
