@@ -183,7 +183,7 @@ export default class ShortAnswer extends RunestoneBase {
         }
         this.answer = data.answer;
         this.jTextArea.value = this.answer;
-        this.renderMath(answer);
+        this.renderMath(this.answer);
         if (data.comment) {
             this.feedbackDiv.innerHTML = `Score: ${data.score} -- ${data.comment}`;
         } else {
