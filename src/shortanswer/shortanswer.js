@@ -13,7 +13,8 @@
 
 import RunestoneBase from "../common/runestonebase.js";
 
-var saList = {}; // Dictionary that contains all instances of shortanswer objects
+export var saList;
+if (saList === undefined) saList = {}; // Dictionary that contains all instances of shortanswer objects
 
 export default class ShortAnswer extends RunestoneBase {
     constructor(opts) {
@@ -28,6 +29,9 @@ export default class ShortAnswer extends RunestoneBase {
             this.optional = false;
             if ($(this.origElem).is("[data-optional]")) {
                 this.optional = true;
+            }
+            if ($(this.origElem).is("[data-mathjax]")) {
+                this.mathjax = true;
             }
             this.renderHTML();
             this.checkServer("shortanswer");
@@ -71,30 +75,31 @@ export default class ShortAnswer extends RunestoneBase {
         this.jTextArea.rows = 4;
         this.jTextArea.cols = 50;
         this.jLabel.appendChild(this.jTextArea);
-        this.jTextArea.oninput = function () {
+        this.jTextArea.onchange = function() {
             this.feedbackDiv.innerHTML = "Your answer has not been saved yet!";
             $(this.feedbackDiv).removeClass("alert-success");
             $(this.feedbackDiv).addClass("alert alert-danger");
         }.bind(this);
         this.fieldSet.appendChild(document.createElement("br"));
+        this.renderedAnswer = document.createElement("div");
+        this.fieldSet.appendChild(this.renderedAnswer);
         this.buttonDiv = document.createElement("div");
         this.fieldSet.appendChild(this.buttonDiv);
         this.submitButton = document.createElement("button");
         $(this.submitButton).addClass("btn btn-success");
         this.submitButton.type = "button";
         this.submitButton.textContent = "Save";
-        this.submitButton.onclick = function () {
+        this.submitButton.onclick = function() {
             this.submitJournal();
         }.bind(this);
         this.buttonDiv.appendChild(this.submitButton);
-        // barb - removed since we aren't really giving instructor feedback here
-        /* this.randomSpan = document.createElement("span");
-            this.randomSpan.innerHTML = "Instructor's Feedback";
-            this.fieldSet.appendChild(this.randomSpan); */
-        /* this.otherOptionsDiv = document.createElement("div");
-            $(this.otherOptionsDiv).css("padding-left:20px");
-            $(this.otherOptionsDiv).addClass("journal-options");
-            this.fieldSet.appendChild(this.otherOptionsDiv); */
+        this.randomSpan = document.createElement("span");
+        this.randomSpan.innerHTML = "Instructor's Feedback";
+        this.fieldSet.appendChild(this.randomSpan);
+        this.otherOptionsDiv = document.createElement("div");
+        $(this.otherOptionsDiv).css("padding-left:20px");
+        $(this.otherOptionsDiv).addClass("journal-options");
+        this.fieldSet.appendChild(this.otherOptionsDiv);
         // add a feedback div to give user feedback
         this.feedbackDiv = document.createElement("div");
         //$(this.feedbackDiv).addClass("bg-info form-control");
@@ -109,7 +114,13 @@ export default class ShortAnswer extends RunestoneBase {
         $(this.origElem).replaceWith(this.containerDiv);
     }
     submitJournal() {
-        var value = $("#" + this.divid + "_solution").val();
+        let value = $("#" + this.divid + "_solution").val();
+        if (this.mathjax) {
+            value = value.replace(/\$\$(.*?)\$\$/g, "\\[ $1 \\]");
+            value = value.replace(/\$(.*?)\$/g, "\\( $1 \\)");
+            $(this.renderedAnswer).text(value);
+        }
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.renderedAnswer]);
         this.setLocalStorage({
             answer: value,
             timestamp: new Date()
@@ -165,7 +176,8 @@ export default class ShortAnswer extends RunestoneBase {
         }
         this.answer = data.answer;
         this.jTextArea.value = this.answer;
-        this.feedbackDiv.innerHTML = "Your current saved answer is shown above.";
+        this.feedbackDiv.innerHTML =
+            "Your current saved answer is shown above.";
         $(this.feedbackDiv).removeClass("alert-danger");
         $(this.feedbackDiv).addClass("alert alert-success");
     }
@@ -175,8 +187,8 @@ export default class ShortAnswer extends RunestoneBase {
 == Find the custom HTML tags and ==
 ==   execute our code on them    ==
 =================================*/
-$(document).ready(function () {
-    $("[data-component=shortanswer]").each(function (index) {
+$(document).ready(function() {
+    $("[data-component=shortanswer]").each(function(index) {
         if ($(this).closest("[data-component=timedAssessment]").length == 0) {
             // If this element exists within a timed component, don't render it here
             saList[this.id] = new ShortAnswer({
@@ -191,6 +203,6 @@ if (typeof component_factory === "undefined") {
     var component_factory = {};
 }
 
-component_factory.shortanswer = function (opts) {
+component_factory.shortanswer = function(opts) {
     return new ShortAnswer(opts);
 };
