@@ -113,14 +113,19 @@ export default class ShortAnswer extends RunestoneBase {
         //this.fieldSet.appendChild(document.createElement("br"));
         $(this.origElem).replaceWith(this.containerDiv);
     }
-    submitJournal() {
-        let value = $("#" + this.divid + "_solution").val();
+
+    renderMath(value) {
         if (this.mathjax) {
             value = value.replace(/\$\$(.*?)\$\$/g, "\\[ $1 \\]");
             value = value.replace(/\$(.*?)\$/g, "\\( $1 \\)");
             $(this.renderedAnswer).text(value);
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.renderedAnswer]);
         }
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.renderedAnswer]);
+    }
+
+    submitJournal() {
+        let value = $("#" + this.divid + "_solution").val();
+        this.renderMath(value);
         this.setLocalStorage({
             answer: value,
             timestamp: new Date()
@@ -143,6 +148,7 @@ export default class ShortAnswer extends RunestoneBase {
     checkLocalStorage() {
         // Repopulates the short answer text
         // which was stored into local storage.
+        var answer = "";
         if (this.graderactive) {
             return;
         }
@@ -152,7 +158,7 @@ export default class ShortAnswer extends RunestoneBase {
             if (ex !== null) {
                 try {
                     var storedData = JSON.parse(ex);
-                    var answer = storedData.answer;
+                    answer = storedData.answer;
                 } catch (err) {
                     // error while parsing; likely due to bad value stored in storage
                     console.log(err.message);
@@ -161,6 +167,7 @@ export default class ShortAnswer extends RunestoneBase {
                 }
                 let solution = $("#" + this.divid + "_solution");
                 solution.text(answer);
+                this.renderMath(answer);
                 this.feedbackDiv.innerHTML =
                     "Your current saved answer is shown above.";
                 $(this.feedbackDiv).removeClass("alert-danger");
@@ -176,8 +183,13 @@ export default class ShortAnswer extends RunestoneBase {
         }
         this.answer = data.answer;
         this.jTextArea.value = this.answer;
-        this.feedbackDiv.innerHTML =
-            "Your current saved answer is shown above.";
+        this.renderMath(answer);
+        if (data.comment) {
+            this.feedbackDiv.innerHTML = `Score: ${data.score} -- ${data.comment}`;
+        } else {
+            this.feedbackDiv.innerHTML =
+                "Your current saved answer is shown above.";
+        }
         $(this.feedbackDiv).removeClass("alert-danger");
         $(this.feedbackDiv).addClass("alert alert-success");
     }
