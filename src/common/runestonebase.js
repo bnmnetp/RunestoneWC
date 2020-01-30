@@ -16,7 +16,7 @@
  **/
 
 import { pageProgressTracker } from "./bookfuncs.js";
-import "./../styles/runestone-custom-sphinx-bootstrap.css";
+//import "./../styles/runestone-custom-sphinx-bootstrap.css";
 
 export default class RunestoneBase {
     constructor(opts) {
@@ -121,7 +121,15 @@ export default class RunestoneBase {
                         data,
                         this.repopulateFromStorage.bind(this)
                     )
-                    .error(this.checkLocalStorage.bind(this));
+                    .fail(
+                        function() {
+                            try {
+                                this.checkLocalStorage();
+                            } catch (err) {
+                                console.log(err);
+                            }
+                        }.bind(this)
+                    );
             } else {
                 this.loadData({});
             }
