@@ -112,6 +112,7 @@ export default class ShortAnswer extends RunestoneBase {
         this.fieldSet.appendChild(this.feedbackDiv);
         //this.fieldSet.appendChild(document.createElement("br"));
         $(this.origElem).replaceWith(this.containerDiv);
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.containerDiv]);
     }
 
     renderMath(value) {
@@ -184,12 +185,15 @@ export default class ShortAnswer extends RunestoneBase {
         this.answer = data.answer;
         this.jTextArea.value = this.answer;
         this.renderMath(this.answer);
-        if (data.comment) {
-            this.feedbackDiv.innerHTML = `Score: ${data.score} -- ${data.comment}`;
-        } else {
-            this.feedbackDiv.innerHTML =
-                "Your current saved answer is shown above.";
+        let feedbackStr = "Your current saved answer is shown above.";
+        if (typeof data.score !== "undefined") {
+            feedbackStr = `Score: ${data.score}`;
         }
+        if (data.comment) {
+            feedbackStr += ` -- ${data.comment}`;
+        }
+        this.feedbackDiv.innerHTML = feedbackStr;
+
         $(this.feedbackDiv).removeClass("alert-danger");
         $(this.feedbackDiv).addClass("alert alert-success");
     }
