@@ -12,6 +12,7 @@
 ==========================================*/
 
 import RunestoneBase from "../common/runestonebase.js";
+import "./../styles/shortanswer.css";
 
 export var saList;
 if (saList === undefined) saList = {}; // Dictionary that contains all instances of shortanswer objects
@@ -81,8 +82,11 @@ export default class ShortAnswer extends RunestoneBase {
             $(this.feedbackDiv).addClass("alert alert-danger");
         }.bind(this);
         this.fieldSet.appendChild(document.createElement("br"));
-        this.renderedAnswer = document.createElement("div");
-        this.fieldSet.appendChild(this.renderedAnswer);
+        if (this.mathjax) {
+            this.renderedAnswer = document.createElement("div");
+            $(this.renderedAnswer).addClass("latexoutput");
+            this.fieldSet.appendChild(this.renderedAnswer);
+        }
         this.buttonDiv = document.createElement("div");
         this.fieldSet.appendChild(this.buttonDiv);
         this.submitButton = document.createElement("button");
