@@ -8,11 +8,15 @@
 ===             Kirby Olson              ===
 ===               6/11/15                ===
 ==========================================*/
+import TimedFITB from "../fitb/timedfitb.js";
+import TimedMC from "../mchoice/timedmc.js";
+import TimedShortAnswer from "../shortanswer/timed_shortanswer.js";
+import TimedActiveCode from "../activecode/timed_activecode.js";
 
-var TimedList = {}; // Timed dictionary
+export var TimedList = {}; // Timed dictionary
 
 // Timed constructor
-class Timed extends RunestoneBase {
+export default class Timed extends RunestoneBase {
     constructor(opts) {
         if (opts) {
             this.init(opts);

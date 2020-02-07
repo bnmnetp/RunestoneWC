@@ -1,3 +1,5 @@
+import MultipleChoice from "./mchoice.js";
+
 class TimedMC extends MultipleChoice {
     constructor(opts) {
         if (opts) {

@@ -1,4 +1,5 @@
-class TimedFITB {
+import FITB from "./fitb.js";
+class TimedFITB extends FITB {
     constructor(opts) {
         if (opts) {
             this.timedInit(opts);

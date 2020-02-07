@@ -9,7 +9,8 @@ module.exports = env => {
             "./src/shortanswer/shortanswer.js",
             "./src/activecode/acfactory.js",
             "./src/mchoice/mchoice.js",
-            "./src/fitb/fitb.js"
+            "./src/fitb/fitb.js",
+            "./src/clickablearea/clickable.js"
         ],
         mode: env.MODE,
         devtool: env.MODE === "development" ? "inline-source-map" : "none",
