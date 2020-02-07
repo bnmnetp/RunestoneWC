@@ -163,6 +163,21 @@ print(total)
             </ul>
         </div>
 
+        <div class="runestone">
+            <div data-component="fillintheblank" id="fill1412">
+                <p>Before-5-After: Fill in the blanks to make the following sentence: “The red car drove away.”</p>
+                <p>The <input type="text"> car drove <input type="text">.</p>
+
+            <script type="application/json">
+                [[{"regex": "^\\s*red\\s*$", "regexFlags": "", "feedback": "<p>Correct.</p>\n"},
+                  {"regex": "^\\s*x\\s*$", "regexFlags": "", "feedback": "<p>Incorrect. Try \u2018red\u2019.</p>\n"}],
+                 [{"regex": "^\\s*away\\s*$", "regexFlags": "", "feedback": "<p>Correct.</p>\n"},
+                 {"regex": "^\\s*x\\s*$", "regexFlags": "", "feedback": "<p>Incorrect. Try \u2018away\u2019.</p>\n"}]]
+            </script>
+
+            </div>
+        </div>
+
         <div id="scprogresscontainer">
             You have attempted <span id="scprogresstotal"></span> of
             <span id="scprogressposs"></span> activities on this page

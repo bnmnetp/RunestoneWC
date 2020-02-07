@@ -887,7 +887,3 @@ textarea#lp-result {
 #subchapterprogress > div {
     background: green;
 }
-
-.runestone label p {
-    display: inline;
-}

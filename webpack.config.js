@@ -8,7 +8,8 @@ module.exports = env => {
         entry: [
             "./src/shortanswer/shortanswer.js",
             "./src/activecode/acfactory.js",
-            "./src/mchoice/mchoice.js"
+            "./src/mchoice/mchoice.js",
+            "./src/fitb/fitb.js"
         ],
         mode: env.MODE,
         devtool: env.MODE === "development" ? "inline-source-map" : "none",

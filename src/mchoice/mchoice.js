@@ -13,6 +13,7 @@
 
 import RunestoneBase from "../common/runestonebase.js";
 //import "./../styles/runestone-custom-sphinx-bootstrap.css";
+import "./mchoice.css";
 
 var mcList = {}; // Multiple Choice dictionary
 
