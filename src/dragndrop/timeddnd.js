@@ -1,18 +1,13 @@
-import FITB from "./fitb.js";
-export default class TimedFITB extends FITB {
+import DragNDrop from "./dragndrop.js";
+
+export default class TimedDragNDrop extends DragNDrop {
     constructor(opts) {
-        if (opts) {
-            this.timedInit(opts);
-        }
-    }
-    timedInit(opts) {
-        this.init(opts);
-        this.renderTimedIcon(this.inputDiv);
+        super(opts);
+        this.renderTimedIcon(this.containerDiv);
         this.hideButtons();
     }
     hideButtons() {
         $(this.submitButton).hide();
-        $(this.compareButton).hide();
     }
     renderTimedIcon(component) {
         // renders the clock icon on timed components.    The component parameter
@@ -29,7 +24,10 @@ export default class TimedFITB extends FITB {
         $(component).prepend(timeIconDiv);
     }
     checkCorrectTimed() {
-        // Returns if the question was correct, incorrect, or skipped (return null in the last case)
+        // Returns if the question was correct.    Used for timed assessment grading.
+        if (this.unansweredNum === this.dragPairArray.length) {
+            this.correct = null;
+        }
         switch (this.correct) {
             case true:
                 return "T";
@@ -40,18 +38,16 @@ export default class TimedFITB extends FITB {
         }
     }
     hideFeedback() {
-        for (var i = 0; i < this.blankArray.length; i++) {
-            $(this.blankArray[i]).removeClass("input-validation-error");
-        }
-        this.feedBackDiv.style.display = "none";
+        $(this.feedBackDiv).hide();
     }
     processTimedSubmission(logFlag) {
-        // Disable input, then evaluate component
-        for (var i = 0; i < this.blankArray.length; i++) {
-            this.blankArray[i].disabled = true;
+        // Disable input & evaluate component
+        $(this.resetButton).hide();
+        this.dragEval(logFlag);
+        for (var i = 0; i < this.dragPairArray.length; i++) {
+            // No more dragging
+            $(this.dragPairArray[i][0]).attr("draggable", "false");
+            $(this.dragPairArray[i][0]).css("cursor", "initial");
         }
-        this.startEvaluation(logFlag);
     }
 }
-
-TimedFITB.prototype = new FITB();

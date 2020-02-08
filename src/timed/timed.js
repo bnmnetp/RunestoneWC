@@ -12,21 +12,14 @@ import TimedFITB from "../fitb/timedfitb.js";
 import TimedMC from "../mchoice/timedmc.js";
 import TimedShortAnswer from "../shortanswer/timed_shortanswer.js";
 import TimedActiveCode from "../activecode/timed_activecode.js";
+import TimedDragNDrop from "../dragndrop/dragndrop.js";
 
 export var TimedList = {}; // Timed dictionary
 
 // Timed constructor
 export default class Timed extends RunestoneBase {
     constructor(opts) {
-        if (opts) {
-            this.init(opts);
-        }
-    }
-    /*====================================
-    === Setting Timed Assess Variables ===
-    ====================================*/
-    init(opts) {
-        RunestoneBase.apply(this, arguments);
+        super(opts);
         var orig = opts.orig;
         this.origElem = orig; // the entire element of this timed assessment and all of its children
         this.divid = orig.id;

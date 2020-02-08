@@ -1,6 +1,6 @@
 import MultipleChoice from "./mchoice.js";
 
-class TimedMC extends MultipleChoice {
+export default class TimedMC extends MultipleChoice {
     constructor(opts) {
         if (opts) {
             this.timedinit(opts);

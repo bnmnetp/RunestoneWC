@@ -1,6 +1,6 @@
-import ActiveCode from "./activecode.js";
+import { ActiveCode } from "./activecode.js";
 
-class TimedActiveCode extends ActiveCode {
+export default class TimedActiveCode extends ActiveCode {
     constructor(opts) {
         super(opts);
         //this.renderTimedIcon(this.containerDiv); - bje not needed anymore
