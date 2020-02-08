@@ -8,6 +8,7 @@
 ===             Kirby Olson              ===
 ===               6/11/15                ===
 ==========================================*/
+import RunestoneBase from "../common/runestonebase.js";
 import TimedFITB from "../fitb/timedfitb.js";
 import TimedMC from "../mchoice/timedmc.js";
 import TimedShortAnswer from "../shortanswer/timed_shortanswer.js";
