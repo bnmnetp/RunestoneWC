@@ -203,7 +203,7 @@ export default class FITB extends RunestoneBase {
                 timestamp: new Date()
             });
             var that = this;
-            ret = this.logBookEvent({
+            var ret = this.logBookEvent({
                 event: "fillb",
                 act: answer,
                 answer: answer,
