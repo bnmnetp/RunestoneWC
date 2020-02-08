@@ -1,12 +1,7 @@
 import FITB from "./fitb.js";
 export default class TimedFITB extends FITB {
     constructor(opts) {
-        if (opts) {
-            this.timedInit(opts);
-        }
-    }
-    timedInit(opts) {
-        this.init(opts);
+        super(opts);
         this.renderTimedIcon(this.inputDiv);
         this.hideButtons();
     }
@@ -53,5 +48,3 @@ export default class TimedFITB extends FITB {
         this.startEvaluation(logFlag);
     }
 }
-
-TimedFITB.prototype = new FITB();
