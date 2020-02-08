@@ -12,7 +12,8 @@ module.exports = env => {
             "./src/fitb/fitb.js",
             "./src/clickablearea/clickable.js",
             "./src/dragndrop/dragndrop.js",
-            "./src/timed/timed.js"
+            "./src/timed/timed.js",
+            "./src/parsons/parsons.js"
         ],
         mode: env.MODE,
         devtool: env.MODE === "development" ? "inline-source-map" : "none",
@@ -30,6 +31,10 @@ module.exports = env => {
                 {
                     test: /\.css$/,
                     use: ["style-loader", "css-loader"]
+                },
+                {
+                    test: /\.(png|jpg|svg)$/,
+                    loader: "url-loader"
                 }
             ]
         },
