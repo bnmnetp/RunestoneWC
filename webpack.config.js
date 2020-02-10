@@ -13,7 +13,8 @@ module.exports = env => {
             "./src/clickablearea/clickable.js",
             "./src/dragndrop/dragndrop.js",
             "./src/timed/timed.js",
-            "./src/parsons/parsons.js"
+            "./src/parsons/parsons.js",
+            "./src/poll/poll.js"
         ],
         mode: env.MODE,
         devtool: env.MODE === "development" ? "inline-source-map" : "none",
