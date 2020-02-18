@@ -7,9 +7,8 @@ import RunestoneBase from "../common/runestonebase.js";
 import CodeMirror from "codemirror";
 import "codemirror/mode/python/python.js";
 import "./activecode-i18n.en.js";
-//import "./../styles/activecode.css";
-
-//import "codemirror/lib/codemirror.css";
+import "./../styles/activecode.css";
+import "codemirror/lib/codemirror.css";
 
 var isMouseDown = false;
 document.onmousedown = function() {

@@ -111,6 +111,11 @@ export default class RunestoneBase {
             data.div_id = this.divid;
             data.course = eBookConfig.course;
             data.event = eventInfo;
+            if (this.graderactive && this.deadline) {
+                data.deadline = this.deadline;
+                data.rawdeadline = this.rawdeadline;
+                data.tzoff = this.tzoff;
+            }
             if (this.sid) {
                 data.sid = this.sid;
             }
